@@ -18,10 +18,23 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 
     <!-- Custom CSS -->
     <style>
-        /* Add your custom CSS here, if needed */
+            body {
+        background-color: rgb(0, 172, 216);
+   
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+     
+    .nav-link  {
+    font-size: 1.2em; 
+     }
+
         .modal-container {
             /* Estilo para la modal-container */
             display: none;
@@ -62,66 +75,78 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark sticky-top" style="background-color: rgb(244, 154, 40);">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                   Cteen
+                <a class="navbar-brand" href="#">
+                    <img src="{{ asset('images/cteen_logo_sinfondo.png') }}" alt="cteen logo" width="30px">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-    
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
+                <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
                     <ul class="navbar-nav me-auto">
-                        <!-- Add any other navbar items on the left side here -->
+                        <li class="nav-item">
+                            <a href="dashboard.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="store.html" class="nav-link">Cteen store</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="activityHistory.html" class="nav-link">Actividades</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contents.html" class="nav-link">Contenidos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="doingood.html" class="nav-link">Doing Good!</a>
+                        </li>
                     </ul>
-    
-                    <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"><i class="fab fa-facebook"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.instagram.com/cteenuruguay/" class="nav-link"><i class="fab fa-instagram"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"><i class="fab fa-tiktok"></i></a>
+                        </li>
+                                    
+                        @auth
+                            @if (Auth::user()->points)
                                 <li class="nav-item">
+                                    <span class="nav-link">Puntos: {{ Auth::user()->points->points }}</span>
+                                </li>
+                            @endif
+                        @endauth
+                        <li class="nav-item">
+                            @guest
+                                @if (Route::has('login'))
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-    
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item">
-                                @auth
-                                    @if (Auth::user()->points)
-                                        <span class="badge bg-primary">Puntos: {{ Auth::user()->points->points }}</span>
-                                    @endif
-                                @endauth
-                            </li>
-                            <li class="nav-item dropdown">
+                                @endif
+                            @else
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-    
+                        
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/login"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="/login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-    
+                        
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
-                        @endguest
+                            @endguest
+                        </li>
                     </ul>
+                    
                 </div>
             </div>
         </nav>
+        
+        
     
         <main class="py-4">
             @yield('content')
@@ -133,7 +158,7 @@
     <div class="modal-container">
         <div class="modal-content">
             <span class="close-modal-btn" onclick="closeModal()">&times;</span>
-            <h2>Felicidades, <span id="username">{{ Auth::user()->name }}</span></h2>
+            <h2 style="color: #000">Felicidades, <span id="username">{{ Auth::user()->name }}</span></h2>
             <p>Ganaste <span id="userpoints">
                 @auth
                     @if (Auth::user()->points)
@@ -146,7 +171,7 @@
         </div>
     </div>
     
-
+    <script src="https://kit.fontawesome.com/39f24fdfe8.js" crossorigin="anonymous"></script>
     <script>
         // Function to show the modal
         function showModal(username) {
