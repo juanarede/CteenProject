@@ -86,10 +86,10 @@
                 <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="dashboard.html" class="nav-link">Home</a>
+                            <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="store.html" class="nav-link">Cteen store</a>
+                            <a href="{{ route('store') }}" class="nav-link">Cteen store</a>
                         </li>
                         <li class="nav-item">
                             <a href="activityHistory.html" class="nav-link">Actividades</a>
@@ -148,8 +148,9 @@
         
         
     
-        <main class="py-4">
+        <main class="pt-4">
             @yield('content')
+            @include('includes.footer')
         </main>
     </div>
     
