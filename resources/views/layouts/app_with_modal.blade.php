@@ -6,6 +6,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+ 
+
 
     <title>{{ config('app.name', 'cteen') }}</title>
 
@@ -19,8 +21,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <!-- Custom CSS -->
     <style>
             body {
@@ -103,15 +105,22 @@
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="nav-link cart-dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="cantidad-carrito">0</span>
+                            </a>
+                            <div class="dropdown-menu cart-dropdown" aria-labelledby="navbarDropdown">
+                                <!-- Contenido del dropdown del carrito -->
+                                <div class="cart-items">
+                                    <!-- Los productos se agregarán dinámicamente mediante JavaScript -->
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-center" href="/carrito">
+                                    Ir al carrito
+                                </a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a href="https://www.instagram.com/cteenuruguay/" class="nav-link"><i class="fab fa-instagram"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fab fa-tiktok"></i></a>
-                        </li>
-                                    
+                        <!-- Elemento del usuario -->
                         @auth
                             @if (Auth::user()->points)
                                 <li class="nav-item">
@@ -171,7 +180,9 @@
             </span> puntos</p>
         </div>
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/39f24fdfe8.js" crossorigin="anonymous"></script>
     <script>
         // Function to show the modal
@@ -200,5 +211,28 @@
             showModal('{{ Auth::user()->name }}');
         @endauth
     </script>
+
+<script>
+   function actualizarContenidoCarrito(data) {
+        const cartItemsContainer = document.querySelector('.cart-items');
+        cartItemsContainer.innerHTML = ''; // Limpia el contenido anterior del dropdown
+
+        if (data.carrito && Object.keys(data.carrito).length > 0) {
+            for (const idProducto in data.carrito) {
+                const cantidad = data.carrito[idProducto];
+                const productoHTML = `<div>${cantidad} x Producto ${idProducto}</div>`;
+                cartItemsContainer.insertAdjacentHTML('beforeend', productoHTML);
+            }
+        } else {
+            cartItemsContainer.insertAdjacentHTML('beforeend', '<div>El carrito está vacío</div>');
+        }
+
+        // Actualiza el número de elementos en el carrito en el ícono del carrito
+        const cantidadCarrito = document.querySelector('.cantidad-carrito');
+        cantidadCarrito.innerText = data.totalElementosCarrito;
+    }
+
+</script>
+
 </body>
 </html>

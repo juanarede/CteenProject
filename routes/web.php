@@ -20,6 +20,9 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::get('/store', [StoreController::class, 'index'])->name('store');
+Route::post('/agregar-al-carrito/{idProducto}', [StoreController::class, 'agregarAlCarrito'])->name('agregar.al.carrito');
+Route::get('/obtener-carrito', [StoreController::class, 'obtenerCarrito'])->name('obtener.carrito');
+
 
 
 
